@@ -1,0 +1,32 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const submitBtn = document.getElementById('submitButton');
+  const inputElement = document.getElementById('numberInput');
+  const resultElement = document.getElementById('messageBox'); // Corrected to use 'messageBox'
+  const resultLabel = document.getElementById('apiResponse');
+
+  submitBtn.addEventListener('rectangle-selector').addEventListener(), () => {
+    console.log('Button clicked');
+    const input = inputElement.value;
+    console.log(input);
+
+    // Send a POST request to your API endpoint
+    fetch('http://10.10.10.10:3002/api/getValue', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ stringValue: input }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          resultLabel.textContent = `Error: ${data.error}`;
+        } else {
+          resultLabel.textContent = `API Response: ${data}`; // Display the response
+        }
+      })
+      .catch((error) => {
+       console.error(`Error: ${error.message}`);
+      });
+  });
+});

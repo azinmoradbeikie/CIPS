@@ -1,0 +1,40 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const rectangleSelector = document.getElementById('rectangle-selector');
+  const resultLabel = document.getElementById('apiResponse');
+
+  // Define a mapping between user selections and API inputs
+  const rectangleMappings = {
+    rectangle1: '1A',
+    rectangle2: '1A',
+    rectangle3: '2A',
+    rectangle4: '2B',
+  };
+
+  rectangleSelector.addEventListener('change', () => {
+    const selectedRectangle = rectangleSelector.value;
+    const apiInput = rectangleMappings[selectedRectangle];
+
+    if (apiInput) {
+      // Send the mapped input to the API
+      fetch('http://10.10.10.10:3002/api/getValue', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ stringValue: apiInput }), // Send the mapped input
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            resultLabel.textContent = `Error: ${data.error}`;
+          } else {
+            resultLabel.textContent = `API Response: ${data}`;
+          }
+        })
+        .catch((error) => {
+            });
+}
+        });
+    }
+  });
+});
